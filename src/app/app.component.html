@@ -5,7 +5,7 @@
     <p>Ingresa los valores separados por coma</p>
     <form class="form-inline">
       <div class="form-group">
-        <input type="text" class="form-control" placeholder="Ejemplo: 13,24,123,2323">
+        <input type="text" class="form-control" placeholder="Ejemplo: 13,24,123,2323" [(ngModel)]="data" name="data">
       </div>
       <div class="btn-group" role="group">
         <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -13,13 +13,13 @@
           <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
-          <li><a href="#">Metodo burbuja</a></li>
-          <li><a href="#">Metodo Inserción</a></li>
-          <li><a href="#">Metodo Selección</a></li>
-          <li><a href="#">Metodo Mezcla</a></li>
-          <li><a href="#">Metodo Casilleros</a></li>
-          <li><a href="#">Metodo Rápido</a></li>
-          <li><a href="#">Metodo Radix</a></li>
+          <li><a href="#" (click)="burbuja()">Metodo Burbuja</a></li>
+          <li><a href="#" (click)="insercion()">Metodo Inserción</a></li>
+          <li><a href="#" (click)="seleccion()">Metodo Selección</a></li>
+          <li><a href="#" (click)="mezcla()">Metodo Mezcla</a></li>
+          <li><a href="#" (click)="casilleros()">Metodo Casilleros</a></li>
+          <li><a href="#" (click)="rapido()">Metodo Rápido</a></li>
+          <li><a href="#" (click)="radix()">Metodo Radix</a></li>
         </ul>
       </div>
     </form>
