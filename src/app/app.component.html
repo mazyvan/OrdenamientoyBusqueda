@@ -1,16 +1,18 @@
-<div class="">
-  <div class="container">
-    <h1>Ordenamiento</h1>
-    <br>
-    <p>Ingresa los valores separados por coma</p>
-    <form class="form-inline">
-      <div class="form-group">
+<div class="container">
+  <h1 class="col-xs-12">Ordenamiento</h1>
+  <div>
+    <form>
+      <div class="col-xs-12">
+        <br>
+        <p>Ingresa los valores separados por coma</p>
+      </div>
+      <div class="form-group col-xs-8">
         <input type="text" class="form-control" placeholder="Ejemplo: 13,24,123,2323" [(ngModel)]="data" name="data">
       </div>
-      <div class="btn-group" role="group">
-        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Ordenar 
-          <span class="caret"></span>
+      <div class="btn-group col-xs-3" role="group">
+        <button type="button" id="btn-ordenar" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+          aria-expanded="false">
+          Ordenar &nbsp; <span class="caret"></span>
         </button>
         <ul class="dropdown-menu">
           <li><a href="#" (click)="burbuja()">Metodo Burbuja</a></li>
@@ -23,5 +25,42 @@
         </ul>
       </div>
     </form>
+    <br><br>
+  </div>
+  <div class="col-xs-12">
+    <br>
+    <table class="table table-striped table-hover" *ngIf="list.length > 0">
+      <thead>
+        <tr>
+          <th>Número de Iteración</th>
+          <th>Lista de valores</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>0</strong></td>
+          <td>
+            <span *ngFor="let item of unOrderList; let i = index;">
+                <strong *ngIf="i == 0"> [ </strong>
+                <strong>{{ item }}</strong>
+                <strong *ngIf="i < unOrderList.length-1"> , </strong>
+                <strong *ngIf="i == unOrderList.length-1"> ] </strong>
+              </span>
+          </td>
+        </tr>
+        <tr *ngFor="let iteration of iterations; let i = index;">
+          <td><strong>{{ i+1 }}</strong></td>
+          <td>
+            <span *ngFor="let number of iteration; let j = index">
+                <strong *ngIf="j == 0"> [ </strong>
+                <strong>{{ number }}</strong>
+                <strong *ngIf="j < iteration.length-1"> , </strong>
+                <strong *ngIf="j == iteration.length-1"> ] </strong>
+              </span>
+          </td>
+        </tr>
+      </tbody>
+      <br><br><br>
+    </table>
   </div>
 </div>
