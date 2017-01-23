@@ -9,13 +9,19 @@ export class AppComponent {
   public data;
   public list: number[] = [];
   public unOrderList: number[] = [];
-  public iterations:any = [];
-  public iteration1 = "";
+  public iterations: any = [];
   constructor() {
   }
 
+  limpiar() {
+    this.data = "";
+    this.unOrderList = [];
+    this.list = [];
+    this.iterations = [];
+  }
+
   convertToArray(data: string) {
-    data = data.replace("[","").replace("]","");;
+    data = data.replace("[", "").replace("]", "");;
     let list = data.split(",");
     let lista = list.filter(data => /\S/.test(data))
       .map(data => Number(data))
@@ -38,7 +44,6 @@ export class AppComponent {
       });
     });
     this.list = list;
-    console.log("los datos ordenados son: ", list);
   }
 
   insercion() {
@@ -56,12 +61,33 @@ export class AppComponent {
       }
     });
     this.list = list;
-    console.log("los datos ordenados son: ", list);
   }
 
   seleccion() {
+    let self = this;
+    this.iterations = [];
     let list = this.convertToArray(this.data);
+    let menor: number;
+    let pos: number;
+    let temp: number;
 
+    for (var p = 0; p < list.length - 1; p++) {
+      menor = list[p];
+      pos = p;
+      for (var h = p + 1; h < list.length; h++) {
+        self.iterations.push(list.filter(() => true));
+        if (list[h] < menor) {
+          menor = list[h];
+          pos = h;
+        }
+      }
+      if (pos != p) {
+        temp = list[p];
+        list[p] = list[pos];
+        list[pos] = temp;
+      }
+    }
+    this.list = list;
   }
 
   mezcla() {
@@ -73,7 +99,42 @@ export class AppComponent {
   }
 
   rapido() {
-    let list = this.convertToArray(this.data);
+    this.iterations = [];
+    this.list = this.convertToArray(this.data);
+    this.doRapido(this.list, 0, this.list.length - 1);
+  }
+
+  doRapido(list1?, izq1?, der1?) {
+    let self = this;
+    this.list = list1 ? list1 : this.convertToArray(this.data);
+    let pivote = izq1 ? this.list[izq1] : this.list[0];
+    let izq = izq1 ? izq1 : 0;
+    let i = izq;
+    let der = der1 ? der1 : this.list.length - 1;
+    let d = der
+    let aux;
+    while (i < d) {
+      while (this.list[i] <= pivote && i < d) {
+        i++;
+      }
+      while (this.list[d] > pivote) {
+        d--;
+      }
+      if (i < d) {
+        aux = this.list[i];
+        this.list[i] = this.list[d];
+        this.list[d] = aux;
+      }
+      self.iterations.push(this.list.filter(() => true));
+    }
+    this.list[izq] = this.list[d];
+    this.list[d] = pivote;
+    if (izq < d - 1) {
+      this.doRapido(this.list, izq, d - 1);
+    }
+    if (d + 1 < der) {
+      this.doRapido(this.list, d + 1, der);
+    }
   }
 
   radix() {

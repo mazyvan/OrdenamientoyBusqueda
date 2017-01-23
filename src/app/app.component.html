@@ -29,7 +29,7 @@
   </div>
   <div class="col-xs-12">
     <br>
-    <button class="btn btn-danger pull-right">Limpiar Todo</button>
+    <button class="btn btn-danger pull-right" (click)="limpiar()" *ngIf="iterations.length > 0" >Borrar Todo</button>
     <table class="table table-striped table-hover" *ngIf="list.length > 0">
       <thead>
         <tr>
