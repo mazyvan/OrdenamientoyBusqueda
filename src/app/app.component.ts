@@ -10,7 +10,12 @@ export class AppComponent {
   public list: number[] = [];
   public unOrderList: number[] = [];
   public iterations: any = [];
+  public page = 'sorting';
   constructor() {
+  }
+
+  setPage(page) {
+    this.page = page;
   }
 
   limpiar() {

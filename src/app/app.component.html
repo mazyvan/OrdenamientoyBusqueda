@@ -1,67 +1,156 @@
-<div class="container">
-  <h1 class="col-xs-12">Sorting</h1>
-  <div>
-    <form>
-      <div class="col-xs-12">
-        <br>
-        <p>Ingresa los valores separados por coma</p>
-      </div>
-      <div class="form-group col-sm-8">
-        <input type="text" class="form-control" placeholder="Ejemplo: 13,24,123,2323" [(ngModel)]="data" name="data">
-      </div>
-      <div class="btn-group col-sm-3" role="group">
-        <button type="button" id="btn-ordenar" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
-          aria-expanded="false">
-          Ordenar &nbsp; <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu">
-          <li><a href="#" (click)="burbuja()">Metodo Burbuja</a></li>
-          <li><a href="#" (click)="insercion()">Metodo Inserción</a></li>
-          <li><a href="#" (click)="seleccion()">Metodo Selección</a></li>
-          <li><a href="#" (click)="mezcla()">Metodo Mezcla</a></li>
-          <li><a href="#" (click)="casilleros()">Metodo Casilleros</a></li>
-          <li><a href="#" (click)="rapido()">Metodo Rápido</a></li>
-          <li><a href="#" (click)="radix()">Metodo Radix</a></li>
-        </ul>
-      </div>
-    </form>
-    <br><br>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
+        aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Sorting & Searching</a>
+    </div>
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+      <ul class="nav navbar-nav">
+        <li [class.active]="page == 'sorting'">
+          <a href="#" (click)="setPage('sorting')">Ordenamiento <span *ngIf="page == 'sorting'" class="sr-only">(current)</span></a>
+        </li>
+        <li [class.active]="page == 'searching'">
+          <a href="#" (click)="setPage('searching')">Busqueda <span *ngIf="page == 'searching'" class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
   </div>
-  <div class="col-xs-12">
-    <br>
-    <button class="btn btn-danger pull-right" (click)="limpiar()" *ngIf="iterations.length > 0" >Borrar Todo</button>
-    <table class="table table-striped table-hover" *ngIf="list.length > 0">
-      <thead>
-        <tr>
-          <th>Número de Iteración</th>
-          <th>Lista de valores</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>0</strong></td>
-          <td>
-            <span *ngFor="let item of unOrderList; let i = index;">
-                <strong *ngIf="i == 0"> [ </strong>
-                <strong>{{ item }}</strong>
-                <strong *ngIf="i < unOrderList.length-1"> , </strong>
-                <strong *ngIf="i == unOrderList.length-1"> ] </strong>
-              </span>
-          </td>
-        </tr>
-        <tr *ngFor="let iteration of iterations; let i = index;">
-          <td><strong>{{ i+1 }}</strong></td>
-          <td>
-            <span *ngFor="let number of iteration; let j = index">
-                <strong *ngIf="j == 0"> [ </strong>
-                <strong>{{ number }}</strong>
-                <strong *ngIf="j < iteration.length-1"> , </strong>
-                <strong *ngIf="j == iteration.length-1"> ] </strong>
-              </span>
-          </td>
-        </tr>
-      </tbody>
-      <br><br><br>
-    </table>
+</nav>
+<section class="jumbotron" [ngSwitch]="page">
+  <div class="container" *ngSwitchCase="'sorting'">
+    <h1 class="col-xs-12">Sorting</h1>
+    <div>
+      <form>
+        <div class="col-xs-12">
+          <br>
+          <p>Ingresa los valores separados por coma</p>
+        </div>
+        <div class="form-group col-sm-8">
+          <input type="text" class="form-control" placeholder="Ejemplo: 13,24,123,2323" [(ngModel)]="data" name="data">
+        </div>
+        <div class="btn-group col-sm-3" role="group">
+          <button type="button" id="btn-ordenar" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Ordenar &nbsp; <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" (click)="burbuja()">Metodo Burbuja</a></li>
+            <li><a href="#" (click)="insercion()">Metodo Inserción</a></li>
+            <li><a href="#" (click)="seleccion()">Metodo Selección</a></li>
+            <li><a href="#" (click)="mezcla()">Metodo Mezcla</a></li>
+            <li><a href="#" (click)="casilleros()">Metodo Casilleros</a></li>
+            <li><a href="#" (click)="rapido()">Metodo Rápido</a></li>
+            <li><a href="#" (click)="radix()">Metodo Radix</a></li>
+          </ul>
+        </div>
+      </form>
+      <br><br>
+    </div>
+    <div class="col-xs-12">
+      <br>
+      <button class="btn btn-danger pull-right" (click)="limpiar()" *ngIf="iterations.length > 0">Borrar Todo</button>
+      <table class="table table-striped table-hover" *ngIf="list.length > 0">
+        <thead>
+          <tr>
+            <th>Número de Iteración</th>
+            <th>Lista de valores</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>0</strong></td>
+            <td>
+              <span *ngFor="let item of unOrderList; let i = index;">
+                  <strong *ngIf="i == 0"> [ </strong>
+                  <strong>{{ item }}</strong>
+                  <strong *ngIf="i < unOrderList.length-1"> , </strong>
+                  <strong *ngIf="i == unOrderList.length-1"> ] </strong>
+                </span>
+            </td>
+          </tr>
+          <tr *ngFor="let iteration of iterations; let i = index;">
+            <td><strong>{{ i+1 }}</strong></td>
+            <td>
+              <span *ngFor="let number of iteration; let j = index">
+                  <strong *ngIf="j == 0"> [ </strong>
+                  <strong>{{ number }}</strong>
+                  <strong *ngIf="j < iteration.length-1"> , </strong>
+                  <strong *ngIf="j == iteration.length-1"> ] </strong>
+                </span>
+            </td>
+          </tr>
+        </tbody>
+        <br><br><br>
+      </table>
+    </div>
   </div>
-</div>
+  <div class="container" *ngSwitchCase="'searching'">
+    <div class="">
+      <div class="col-lg-3">
+        <h1>Searching</h1>
+      </div>
+      <div class="col-lg-6 row">
+        <br><br>
+        <div class="form-group col-sm-9 col-xs-5">
+          <input type="text" class="form-control" placeholder="Ejemplo: 74" [(ngModel)]="wanted" name="wanted">
+        </div>
+        <div class="btn-group col-sm-3 col-xs-7" role="group">
+          <button type="button" id="btn-ordenar" class="btn btn-default dropdown-toggle" [class.disabled]="! list.length > 0" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Buscar &nbsp; <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" (click)="burbuja()">Busqueda Secuencial</a></li>
+            <li><a href="#" (click)="insercion()">Busqueda Binaria</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div>
+      <form>
+        <div class="col-xs-12">
+          <br>
+          <p>Valores actualmente en la lista</p>
+        </div>
+        <div class="form-group col-sm-8">
+          <input type="text" class="form-control" placeholder="Lista vacía" [(ngModel)]="data" name="data" disabled>
+        </div>
+        <div class="btn-group col-sm-3" role="group">
+          <button type="button" id="btn-ordenar" class="btn btn-primary disabled dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+            aria-expanded="false">
+            Ordenar &nbsp; <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li><a href="#" (click)="burbuja()">Metodo Burbuja</a></li>
+            <li><a href="#" (click)="insercion()">Metodo Inserción</a></li>
+            <li><a href="#" (click)="seleccion()">Metodo Selección</a></li>
+            <li><a href="#" (click)="mezcla()">Metodo Mezcla</a></li>
+            <li><a href="#" (click)="casilleros()">Metodo Casilleros</a></li>
+            <li><a href="#" (click)="rapido()">Metodo Rápido</a></li>
+            <li><a href="#" (click)="radix()">Metodo Radix</a></li>
+          </ul>
+        </div>
+      </form>
+      <br><br>
+    </div>
+    <div class="col-xs-12">
+      <br>
+      <button class="btn btn-danger pull-right" (click)="limpiar()" *ngIf="iterations.length > 0">Borrar Todo</button>
+      <p *ngIf="list.length > 0">Los valores ordenados son:
+        <span *ngFor="let item of list; let i = index;">
+          <strong *ngIf="i == 0"> [ </strong>
+          <strong>{{ item }}</strong>
+          <strong *ngIf="i < unOrderList.length-1"> , </strong>
+          <strong *ngIf="i == unOrderList.length-1"> ] </strong>
+        </span>
+      </p>
+    </div>
+  </div>
+</section>
+
