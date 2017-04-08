@@ -7,6 +7,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   public data;
+  public wanted;
+  public foundIn;
+  public errorMessage;
   public list: number[] = [];
   public unOrderList: number[] = [];
   public iterations: any = [];
@@ -33,6 +36,22 @@ export class AppComponent {
       .filter(data => (typeof data == "number" && data));
     this.unOrderList = lista.filter(() => true);
     return lista;
+  }
+
+  linearSearch() {
+    this.errorMessage = undefined;
+    let list = (this.list.length > 0) ? this.list : this.convertToArray(this.data);
+    this.foundIn = list.indexOf(parseInt(this.wanted));
+  }
+
+  binarySearch() {
+    this.errorMessage = undefined;
+    if (!(this.list.length > 0)) {
+      this.foundIn = undefined;
+      this.errorMessage = "Para usar la búsqueda binaria la lista debe estar ordenada";
+    } else {
+      this.foundIn = this.binaryIndexOf(this.list, this.wanted);
+    }
   }
 
   burbuja() {
@@ -92,15 +111,62 @@ export class AppComponent {
         list[pos] = temp;
       }
     }
+    self.iterations.push(list.filter(() => true));
     this.list = list;
   }
 
   mezcla() {
+    let self = this;
+    this.iterations = [];
     let list = this.convertToArray(this.data);
+    this.list = this.divideMerge(list);
+    self.iterations.push(this.list.filter(() => true));
   }
 
   casilleros() {
+    let self = this;
+    this.iterations = [];
     let list = this.convertToArray(this.data);
+    // Declaring vars
+    var i,
+      minValue = list[0],
+      maxValue = list[0],
+      bucketSize = 5;
+
+    // Setting min and max values
+    list.forEach(function (currentVal) {
+      if (currentVal < minValue) {
+        minValue = currentVal;
+      } else if (currentVal > maxValue) {
+        maxValue = currentVal;
+      }
+    })
+
+    // Initializing buckets
+    var bucketCount = Math.floor((maxValue - minValue) / bucketSize) + 1;
+    var allBuckets = new Array(bucketCount);
+
+    for (i = 0; i < allBuckets.length; i++) {
+      allBuckets[i] = [];
+    }
+
+    // Pushing values to buckets
+    list.forEach(function (currentVal) {
+      allBuckets[Math.floor((currentVal - minValue) / bucketSize)].push(currentVal);
+    });
+
+    // Sorting buckets
+    list.length = 0;
+
+    allBuckets.forEach(function (bucket) {
+      self.insertionSortForBucket(bucket);
+      bucket.forEach(function (element) {
+        list.push(element)
+      });
+    });
+
+    this.list = list;
+    self.iterations.push(this.list.filter(() => true));
   }
 
   rapido() {
@@ -142,8 +208,77 @@ export class AppComponent {
     }
   }
 
-  radix() {
-    let list = this.convertToArray(this.data);
+  divideMerge(items: number[]): number[] {
+    var halfLength = Math.ceil(items.length / 2);
+    var low = items.slice(0, halfLength);
+    var high = items.slice(halfLength);
+    if (halfLength > 1) {
+      low = this.divideMerge(low);
+      high = this.divideMerge(high);
+    }
+    return this.combineMerge(low, high);
   }
 
+  combineMerge(low: number[], high: number[]): number[] {
+    var indexLow = 0;
+    var indexHigh = 0;
+    var lengthLow = low.length;
+    var lengthHigh = high.length;
+    var combined = [];
+    while (indexLow < lengthLow || indexHigh < lengthHigh) {
+      var lowItem = low[indexLow];
+      var highItem = high[indexHigh];
+      if (lowItem !== undefined) {
+        if (highItem === undefined) {
+          combined.push(lowItem);
+          indexLow++;
+        } else {
+          if (lowItem <= highItem) {
+            combined.push(lowItem);
+            indexLow++;
+          } else {
+            combined.push(highItem);
+            indexHigh++;
+          }
+        }
+      } else {
+        if (highItem !== undefined) {
+          combined.push(highItem);
+          indexHigh++;
+        }
+      }
+    }
+    return combined;
+  }
+
+  insertionSortForBucket(array: number[]): number[] {
+    var length = array.length;
+    for (var i = 1; i < length; i++) {
+      var temp = array[i];
+      for (var j = i - 1; j >= 0 && array[j] > temp; j--) {
+        array[j + 1] = array[j];
+      }
+      array[j + 1] = temp;
+    }
+    return array;
+  }
+
+  binaryIndexOf(array: number[], wanted: number): number {
+    var minIndex = 0;
+    var maxIndex = array.length - 1;
+    var currentIndex;
+    var currentElement;
+    while (minIndex <= maxIndex) {
+      currentIndex = (minIndex + maxIndex) / 2 | 0;
+      currentElement = array[currentIndex];
+      if (currentElement < wanted) {
+        minIndex = currentIndex + 1;
+      }
+      else if (currentElement > wanted) {
+        maxIndex = currentIndex - 1;
+      }
+      else return currentIndex;
+    }
+    return -1;
+  }
 }
